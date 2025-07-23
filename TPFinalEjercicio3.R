@@ -21,7 +21,7 @@ ggplot() +
   geom_segment(data = segmentos, aes(x = x_inicio, xend = x_fin, y = y, yend = y),
                color = "red", size = 1) +
   geom_point(data = N6, aes(x = x, y = y), color = "red", size = 2) +
-  scale_x_continuous(name = "Tiempo (meses)", breaks = seq(0, 6, by = 1)) +
+  scale_x_continuous(name = "Tiempo (meses)",   unique(round(N6$x, 1))) +
   scale_y_continuous(name = "N(t)", breaks = 0:max(N6$y)) +
   ggtitle("Proceso de Poisson para los próximos 6 meses") +
   theme_minimal()
