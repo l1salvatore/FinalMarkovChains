@@ -25,3 +25,28 @@ ggplot() +
   scale_y_continuous(name = "N(t)", breaks = 0:max(N6$y)) +
   ggtitle("Proceso de Poisson para los próximos 6 meses") +
   theme_minimal()
+
+
+# Datos simulados para 15 años
+N15 <- ProcesoPois(180, 1.5)
+# Tiempos entre llegadas
+interarrivals <- diff(N15$x)
+
+summary(interarrivals)
+
+# Histograma con densidad
+hist(interarrivals, breaks = 20, probability = TRUE, col = "skyblue",
+     main = "Histograma de T (tiempos entre llegadas en meses)",
+     xlab = "Tiempo entre llegadas (Meses)")
+
+lines(density(interarrivals), col = "darkblue", lwd = 2)
+curve(dexp(x, rate = 1.5), add = TRUE, col = "red", lwd = 2, lty = 2)
+legend("topright", legend = c("Densidad empírica", "Exponencial teórica"), 
+       col = c("darkblue", "red"), lty = c(1, 2), lwd = 2)
+
+
+
+n <- 100000
+medianas <- replicate(n, mean(diff(ProcesoPois(180,1.5)$x)))
+summary(medianas)
+
