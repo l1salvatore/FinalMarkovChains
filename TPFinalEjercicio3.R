@@ -34,6 +34,7 @@ ggplot() +
 
 # Datos simulados para 15 años
 N15 <- ProcesoPois(15, 18)
+
 # Tiempos entre llegadas
 interarrivals <- diff(N15$x)
 
