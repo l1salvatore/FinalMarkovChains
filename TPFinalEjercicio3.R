@@ -1,12 +1,16 @@
 library(ggplot2)
 
+# Definición de la función ProcesoPois(t, lambda)
+# Genero un número N con rpois
+# Genero un vector de N números desde 0 a t y los ordeno
+# Retorno el data.frame con los resultados
 ProcesoPois <- function(t, lambda){
   N <- rpois(1, t * lambda)
   C <- sort(runif(N, 0, t))
   data.frame(x = c(0, C), y = 0:N)
 }
 
-# Datos simulados
+# Simulación de una trayectoria para los próximos 6 meses
 N6 <- ProcesoPois(0.5, 18)
 
 # Construcción de segmentos horizontales
@@ -32,12 +36,13 @@ ggplot() +
   )
 
 
-# Datos simulados para 15 años
+# Simulación de una trayectoria para los próximos 15 meses
 N15 <- ProcesoPois(15, 18)
 
-# Tiempos entre llegadas
+#Guardo en interarrivals las diferencias entre los tiempos de llegadas (x)
 interarrivals <- diff(N15$x)
 
+# Imprimo el análisis numérico
 summary(interarrivals)
 
 # Histograma con densidad
@@ -45,14 +50,11 @@ hist(interarrivals, breaks = 20, probability = TRUE, col = "skyblue",
      main = "Histograma de T (tiempos entre llegadas en años)",
      xlab = "Tiempo entre llegadas (Años)")
 
-lines(density(interarrivals), col = "darkblue", lwd = 2)
 curve(dexp(x, rate = 18), add = TRUE, col = "red", lwd = 2, lty = 2)
-legend("topright", legend = c("Densidad empírica", "Exponencial teórica"), 
-       col = c("darkblue", "red"), lty = c(1, 2), lwd = 2)
 
 
-
+# Replico n veces el proceso de Poisson y calculo su media
 n <- 100000
-medianas <- replicate(n, mean(diff(ProcesoPois(15,18)$x)))
-summary(medianas)
+medias <- replicate(n, mean(diff(ProcesoPois(15,18)$x)))
+summary(medias)
 
